@@ -12,7 +12,7 @@ import java.util.Scanner;
 import entities.Equipment;
 
 public class SearchData {
-	
+
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	private static final String GET_SERIAL_NUMBER = "wmic bios get serialnumber";
@@ -22,6 +22,9 @@ public class SearchData {
 	private static final String GET_BRAND = "wmic computersystem get manufacturer";
 	private static final String GET_MODEL = "wmic computersystem get model";
 	private static final String GET_HARD_DISK = "wmic logicaldisk get size";
+	private static final String GET_USER_NAME = "wmic computersystem get username";
+	
+	private String user = null;
 
 	private Equipment equipment;
 
@@ -39,7 +42,7 @@ public class SearchData {
 		addMemoryRam();
 		addHardDisk();
 		addType();
-		print();
+		addUser();
 		write();
 
 	}
@@ -97,15 +100,23 @@ public class SearchData {
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-		if (list.get(2).substring(0, 1).equalsIgnoreCase("4")) {
-			equipment.setMemoryRam("4 GB");
-		} else if (list.get(2).substring(0, 1).equalsIgnoreCase("8")) {
-			equipment.setMemoryRam("8 GB");
+		if (list.get(2).contains("4294967296")) {
+			if (list.get(3).contains("4294967296")) {
+				equipment.setMemoryRam("8 GB");
+			} else {
+				equipment.setMemoryRam("4 GB");
+			}
+		} else if (list.get(2).contains("8589934592")) {
+			if (list.get(3).contains("8589934592")) {
+				equipment.setMemoryRam("16 GB");
+			} else {
+				equipment.setMemoryRam("8 GB");
+			}
 		} else if (list.get(2).substring(0, 2).equalsIgnoreCase("16")) {
 			equipment.setMemoryRam("16 GB");
 		}
 	}
-	
+
 	private void addHardDisk() {
 		List<String> list = new ArrayList<String>();
 		try {
@@ -117,7 +128,7 @@ public class SearchData {
 			if (list.get(2).contains("255")) {
 				equipment.setHardDisk("250 GB");
 			}
-			if (list.get(2).contains("455")) {
+			if (list.get(2).contains("499")) {
 				equipment.setHardDisk("500 GB");
 			}
 		} catch (Throwable e) {
@@ -156,7 +167,8 @@ public class SearchData {
 			while (sc.hasNextLine()) {
 				list.add(sc.nextLine());
 			}
-			if (list.get(2).contains(equipment.getBrandEquipment())) {
+			
+			if (list.get(2).contains("HP")) {
 				int i = list.get(2).indexOf(equipment.getBrandEquipment()) + equipment.getBrandEquipment().length() + 1;
 				aux = list.get(2).substring(i);
 				if (aux.contains("Not")) {
@@ -166,10 +178,15 @@ public class SearchData {
 					int j = aux.indexOf("Des");
 					equipment.setModelEquipment(aux.substring(i, j));
 				} else {
-					equipment.setModelEquipment(aux);
+					equipment.setModelEquipment(list.get(2));
 				}
-			} else {
-				equipment.setModelEquipment(list.get(2));
+			} else if (equipment.getBrandEquipment().contains("LENOVO")) {
+				if (list.get(2).contains("10AU00GUBP")) {
+					equipment.setModelEquipment("E73");
+				} else {
+					equipment.setModelEquipment(list.get(2));
+				}
+				
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -188,28 +205,36 @@ public class SearchData {
 			if (list.get(2).contains("Note")) {
 				equipment.setTypeEquipment("NOTEBOOK");
 			}
-			if (list.get(2).contains("Desk")) {
+			if (list.get(2).contains("ProDesk 400 G4 SFF")) {
 				equipment.setBrandEquipment("DESKTOP");
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
-
-	public void print() {
-		System.out.println(equipment.getSerialNumber());
-		System.out.println(equipment.getHostName());
-		System.out.println(equipment.getAddressMAC());
-		System.out.println(equipment.getBrandEquipment());
-		System.out.println(equipment.getModelEquipment());
-		System.out.println(equipment.getMemoryRam());
-		System.out.println(equipment.getHardDisk());
-		System.out.println(equipment.getTypeEquipment());
-
-	}
 	
+	private void addUser() {
+		List<String> list = new ArrayList<String>();
+		try {
+			Process process = Runtime.getRuntime().exec(GET_USER_NAME);
+			Scanner sc = new Scanner(process.getInputStream());
+			while (sc.hasNextLine()) {
+				list.add(sc.nextLine());
+			}
+			if (list.get(2).contains("INDRABRASILBPO")) {
+				user = list.get(2).substring(15);
+			} else {
+				user = list.get(2).substring(1);
+			}
+			
+			
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void write() {
-		
+
 		String path = "C:\\InfoEquipamento.txt";
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
@@ -228,6 +253,8 @@ public class SearchData {
 			bw.write("Disco Rígido: " + equipment.getHardDisk());
 			bw.newLine();
 			bw.write("Tipo de Equipamento: " + equipment.getTypeEquipment());
+			bw.newLine();
+			bw.write("Usuário: " + user);
 			bw.newLine();
 			bw.write("Data: " + sdf.format(new Date()));
 			bw.newLine();
