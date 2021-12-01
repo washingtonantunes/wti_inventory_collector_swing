@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import DAO.EquipmentDAO;
 import entities.Equipment;
 
 public class SearchData {
@@ -23,6 +24,8 @@ public class SearchData {
 	private static final String GET_MODEL = "wmic computersystem get model";
 	private static final String GET_HARD_DISK = "wmic logicaldisk get size";
 	private static final String GET_USER_NAME = "wmic computersystem get username";
+	
+	private String status = null;
 	
 	private String user = null;
 
@@ -43,6 +46,7 @@ public class SearchData {
 		addHardDisk();
 		addType();
 		addUser();
+		toSend();
 		write();
 
 	}
@@ -101,7 +105,7 @@ public class SearchData {
 			e.printStackTrace();
 		}
 		if (list.get(2).contains("4294967296")) {
-			if (list.get(3).contains("4294967296")) {
+			if (list.get(4).contains("4294967296")) {
 				equipment.setMemoryRam("8 GB");
 			} else {
 				equipment.setMemoryRam("4 GB");
@@ -226,11 +230,14 @@ public class SearchData {
 			} else {
 				user = list.get(2).substring(1);
 			}
-			
-			
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void toSend() {
+		EquipmentDAO equipmentDAO = new EquipmentDAO();
+		status = equipmentDAO.addEquipment(equipment);
 	}
 
 	private void write() {
@@ -257,6 +264,9 @@ public class SearchData {
 			bw.write("Usuário: " + user);
 			bw.newLine();
 			bw.write("Data: " + sdf.format(new Date()));
+			bw.newLine();
+			bw.newLine();
+			bw.write("Status: " + status);
 			bw.newLine();
 		} catch (IOException e) {
 			System.out.println("Error: " + e.getMessage());
