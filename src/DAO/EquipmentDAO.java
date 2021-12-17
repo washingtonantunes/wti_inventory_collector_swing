@@ -13,7 +13,7 @@ public class EquipmentDAO {
 
 	private final java.sql.Date DATE = new java.sql.Date(new Date().getTime());
 
-	private final String INSERT = "CALL inventory.add_equipment(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	private final String INSERT = "CALL inventory.add_equipment_collector(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	public EquipmentDAO() {
 
@@ -31,18 +31,15 @@ public class EquipmentDAO {
 				pstm.setString(2, equipment_.getHostName());
 				pstm.setString(3, equipment_.getAddressMAC());
 				pstm.setString(4, equipment_.getTypeEquipment());
-				pstm.setString(5, equipment_.getPatrimonyNumberEquipment());
-				pstm.setString(6, equipment_.getBrandEquipment());
-				pstm.setString(7, equipment_.getModelEquipment());
-				pstm.setString(8, equipment_.getMemoryRam());
-				pstm.setString(9, equipment_.getHardDisk());
-				pstm.setString(10, "");
-				pstm.setDouble(11, 0);
-				pstm.setString(12, "STAND BY");
-				pstm.setDate(13, DATE);
-				pstm.setString(14, "Adcionado Automaticamente");
-				pstm.setString(15, "Entrada de Equipamento");
-				pstm.setString(16, "supindra");
+				pstm.setString(5, equipment_.getBrandEquipment());
+				pstm.setString(6, equipment_.getModelEquipment());
+				pstm.setString(7, equipment_.getMemoryRam());
+				pstm.setString(8, equipment_.getHardDisk());
+				pstm.setString(9, "STAND BY");
+				pstm.setDate(10, DATE);
+				pstm.setString(11, "Adcionado Automaticamente");
+				pstm.setString(12, "Entrada de Equipamento");
+				pstm.setString(13, "supindra");
 
 				pstm.execute();
 				JOptionPane.showMessageDialog(null, "Equipamento cadastrado com sucesso");
