@@ -2,7 +2,7 @@ package application;
 
 import javax.swing.SwingUtilities;
 
-import controller.SearchData;
+import model.controller.Window;
 
 public class Program {
 
@@ -10,7 +10,7 @@ public class Program {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new SearchData();
+				new Window().setVisible(true);
 			}
 		});
 	}

@@ -12,7 +12,7 @@ public class ConnectionFactory {
     private static final String SENHA = "P@ssw0rd";
     private static final String DATABASE = "inventory";
     private static final String DRIVER_CONEXAO = "com.mysql.cj.jdbc.Driver";
-    private static final String STR_CONEXAO = "jdbc:mysql://192.168.20.105:3306/";
+    private static final String STR_CONEXAO = "jdbc:mysql://localhost:3306/";
 
     public static Connection getConexao() throws SQLException, ClassNotFoundException {
 
