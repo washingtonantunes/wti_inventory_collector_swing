@@ -15,9 +15,8 @@ public class InventoryDAO {
 
 	private final java.sql.Date DATE = new java.sql.Date(new Date().getTime());
 
-	private final String INSERT = "CALL `inventory`.`add_inventory`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private final String UPDATE = "CALL `inventory`.`edit_inventory`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private final String LIST = "CALL inventory.list_inventory(?)";
+	private final String INSERT = "CALL wti_inventory.add_inventory_collector(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private final String LIST = "CALL wti_inventory.list_inventory_collector(?)";
 
 	public int addInventory(Inventory inventory_, Boolean workPosition, String changesWorkPosition,
 			String changesEquipment, String changesMonitor1, String changesMonitor2) {
@@ -40,7 +39,7 @@ public class InventoryDAO {
 			pstm.setString(11, changesMonitor1); // changes monitor1
 			pstm.setString(12, changesMonitor2); // changes monitor2
 			pstm.setString(13, "Saída de Inventário"); // typeChange
-			pstm.setString(14, Window.collaborator); // author
+			pstm.setString(14, Window.getCollaborator().getName()); // author
 
 			pstm.execute();
 			JOptionPane.showMessageDialog(null, "Inventário adicionado com sucesso");
@@ -49,49 +48,6 @@ public class InventoryDAO {
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Erro ao remover inventário no banco de dados: " + e.getMessage());
-			return -1;
-		}
-	}
-
-	public int editInventory(Inventory inventoryOld, Inventory inventoryNew, String changesEquipmentOld,
-			String changesEquipmentNew, String changesMonitor1Old, String changesMonitor1New, String changesMonitor2Old,
-			String changesMonitor2New) {
-		if (inventoryNew != null) {
-			Connection conn = null;
-			try {
-				conn = ConnectionFactory.getConexao();
-				PreparedStatement pstm;
-				pstm = conn.prepareStatement(UPDATE);
-
-				pstm.setInt(1, inventoryOld.getIdInventory()); // idInventory
-				pstm.setString(2, inventoryOld.getEquipment().getSerialNumber()); // equipmentOld
-				pstm.setString(3, inventoryNew.getEquipment().getSerialNumber()); // equipmentNew
-				pstm.setString(4, inventoryOld.getMonitor1().getSerialNumberMonitor()); // monitor1Old
-				pstm.setString(5, inventoryNew.getMonitor1().getSerialNumberMonitor()); // monitor1New
-				pstm.setString(6, inventoryOld.getMonitor2().getSerialNumberMonitor()); // monitor2Old
-				pstm.setString(7, inventoryNew.getMonitor2().getSerialNumberMonitor()); // monitor2New
-				pstm.setDate(8, DATE); // date
-				pstm.setString(9, changesEquipmentOld); // changesEquipmentOld
-				pstm.setString(10, changesEquipmentNew); // changesEquipmentNew
-				pstm.setString(11, changesMonitor1Old); // changesMonitor1Old
-				pstm.setString(12, changesMonitor1New); // changesMonitor1New
-				pstm.setString(13, changesMonitor2Old); // changesMonitor2Old
-				pstm.setString(14, changesMonitor2New); // changesMonitor2New
-				pstm.setString(15, "Alteração de Inventário");
-				pstm.setString(16, Window.collaborator);
-
-				pstm.execute();
-				JOptionPane.showMessageDialog(null, "Inventário alterado com sucesso");
-				ConnectionFactory.fechaConexao(conn);
-				return 1;
-
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null,
-						"Erro ao atualizar inventário no banco de dados: " + e.getMessage());
-				return -1;
-			}
-		} else {
-			JOptionPane.showMessageDialog(null, "O inventário enviado por parâmetro está vazio");
 			return -1;
 		}
 	}

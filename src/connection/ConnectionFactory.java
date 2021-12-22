@@ -10,7 +10,7 @@ public class ConnectionFactory {
 
     private static final String USUARIO = "supindra";
     private static final String SENHA = "P@ssw0rd";
-    private static final String DATABASE = "inventory";
+    private static final String DATABASE = "wti_inventory";
     private static final String DRIVER_CONEXAO = "com.mysql.cj.jdbc.Driver";
     private static final String STR_CONEXAO = "jdbc:mysql://localhost:3306/";
 

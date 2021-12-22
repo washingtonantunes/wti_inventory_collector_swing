@@ -15,12 +15,9 @@ public class EquipmentDAO {
 
 	private final java.sql.Date DATE = new java.sql.Date(new Date().getTime());
 
-	private final String INSERT = "CALL inventory.add_equipment_collector(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	private final String LIST = "SELECT * FROM inventory.equipments WHERE serialNumber=?";
+	private final String INSERT = "CALL wti_inventory.add_equipment_collector(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	private final String LIST = "SELECT * FROM wti_inventory.equipments WHERE serialNumber=?";
 
-	public EquipmentDAO() {
-
-	}
 
 	public void addEquipment(Equipment equipment_) {
 		Connection conn = null;
@@ -42,7 +39,7 @@ public class EquipmentDAO {
 			pstm.setDate(11, DATE);
 			pstm.setString(12, "Novo Equipamento Adicionado");
 			pstm.setString(13, "Entrada de Equipamento");
-			pstm.setString(14, Window.collaborator);
+			pstm.setString(14, Window.getCollaborator().getName());
 
 			pstm.execute();
 			JOptionPane.showMessageDialog(null, "Equipamento cadastrado com sucesso");

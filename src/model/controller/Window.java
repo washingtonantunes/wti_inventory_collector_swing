@@ -27,9 +27,6 @@ public class Window extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<Collaborator> collaborators;
-	public static String collaborator = "Washington Antunes";
-
 	private JLabel label_text;
 	private JLabel label_icon;
 
@@ -43,17 +40,13 @@ public class Window extends JFrame {
 	private static Equipment equipment;
 	private static List<WorkPosition> workPosition;
 	private static List<User> users;
+	private static Collaborator collaborator;
 	
 	private SearchData searcData;
 
-	public Window() {
+	public Window(Collaborator collaborator_) {
 		searcData = new SearchData();
-		initCollaborators();
-		initProject();
-		initMonitor();
-		initEquipment();
-		initWorkPosition();
-		initUser();
+		collaborator = collaborator_;
 		initButtons();
 		initLabels();
 		initComponents();
@@ -74,29 +67,21 @@ public class Window extends JFrame {
 	private void initButtons() {
 		buttonAddEquipment = new JButton("Adicionar Equipamento");
 		buttonAddEquipment.setBounds(70, 250, 250, 45);
-		// buttonAddEquipment.setIcon(new
-		// ImageIcon(getClass().getResource("/Icon/iconDashboard.png"))); // NOI18N
 		buttonAddEquipment.addActionListener(new buttonAddEquipmentListener());
 		add(buttonAddEquipment);
 
 		buttonAddMonitor = new JButton("Adicionar Monitor");
 		buttonAddMonitor.setBounds(70, 310, 250, 45);
-		// buttonAddMonitor.setIcon(new
-		// ImageIcon(getClass().getResource("/Icon/iconDashboard.png"))); // NOI18N
 		buttonAddMonitor.addActionListener(new buttonAddMonitorListener());
 		add(buttonAddMonitor);
 
 		buttonAddWorkPosition = new JButton("Adicionar Posição de Trabalho");
 		buttonAddWorkPosition.setBounds(70, 370, 250, 45);
-		// buttonAddWorkPosition.setIcon(new
-		// ImageIcon(getClass().getResource("/Icon/iconDashboard.png"))); // NOI18N
 		buttonAddWorkPosition.addActionListener(new buttonAddWorkPositionListener());
 		add(buttonAddWorkPosition);
 
 		buttonAddInventory = new JButton("Adicionar Inventário");
 		buttonAddInventory.setBounds(70, 430, 250, 45);
-		// buttonAddInventory.setIcon(new
-		// ImageIcon(getClass().getResource("/Icon/iconDashboard.png"))); // NOI18N
 		buttonAddInventory.addActionListener(new buttonAddEquipmenListener());
 		add(buttonAddInventory);
 	}
@@ -110,10 +95,6 @@ public class Window extends JFrame {
 		label_icon = new JLabel((new ImageIcon(getClass().getResource("/model/icon/iconMain.jpg"))));
 		label_icon.setBounds(43, 60, 300, 180);
 		add(label_icon);
-	}
-
-	private void initCollaborators() {
-
 	}
 
 	private void initProject() {
@@ -151,8 +132,8 @@ public class Window extends JFrame {
 		users = userDAO.getUser();
 	}
 
-	public List<Collaborator> getCollaborators() {
-		return collaborators;
+	public static Collaborator getCollaborator() {
+		return collaborator;
 	}
 
 	public static List<Project> getProject() {
@@ -202,6 +183,12 @@ public class Window extends JFrame {
 
 	private class buttonAddEquipmenListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			initProject();
+			initMonitor();
+			initEquipment();
+			initWorkPosition();
+			initUser();
+			
 			AddInventory addInventory = new AddInventory();
 			addInventory.setVisible(true);
 		}

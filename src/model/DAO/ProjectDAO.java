@@ -13,7 +13,7 @@ import model.entities.Project;
 
 public class ProjectDAO {
 
-	private final String LIST = "SELECT * FROM inventory.projects";
+	private final String LIST = "SELECT * FROM wti_inventory.projects";
 
 	public List<Project> getProject() {
 		Connection conn = null;

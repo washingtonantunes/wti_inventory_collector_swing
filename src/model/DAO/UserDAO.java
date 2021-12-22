@@ -13,7 +13,7 @@ import model.entities.User;
 
 public class UserDAO {
 
-	private final String LIST = "SELECT * FROM inventory.users";
+	private final String LIST = "SELECT * FROM wti_inventory.users";
 
 	public List<User> getUser() {
 		Connection conn = null;

@@ -17,8 +17,8 @@ public class WorkPositionDAO {
 
 	private final java.sql.Date DATE = new java.sql.Date(new Date().getTime());
 
-	private final String INSERT = "CALL inventory.add_work_position(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private final String LIST = "SELECT * FROM inventory.work_positions";
+	private final String INSERT = "CALL wti_inventory.add_work_position_collector(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private final String LIST = "SELECT * FROM wti_inventory.work_positions";
 
 	public void addWorkPosition(WorkPosition workPosition_) {
 		Connection conn = null;
@@ -35,7 +35,7 @@ public class WorkPositionDAO {
 			pstm.setDate(6, DATE);
 			pstm.setString(7, "Nova Posição de Trabalho Adicionada");
 			pstm.setString(8, "Entrada de Posição de Trabalho");
-			pstm.setString(9, Window.collaborator);
+			pstm.setString(9, Window.getCollaborator().getName());
 
 			pstm.execute();
 			JOptionPane.showMessageDialog(null, "Posição de trabalho cadastrado com sucesso");

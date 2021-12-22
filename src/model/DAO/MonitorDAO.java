@@ -17,8 +17,8 @@ public class MonitorDAO {
 
 	private final java.sql.Date DATE = new java.sql.Date(new Date().getTime());
 
-	private final String INSERT = "CALL inventory.add_monitor(?,?,?,?,?,?,?,?);";
-	private final String LIST = "SELECT * FROM inventory.monitors";
+	private final String INSERT = "CALL wti_inventory.add_monitor_collector(?,?,?,?,?,?,?,?);";
+	private final String LIST = "SELECT * FROM wti_inventory.monitors";
 
 	public void addMonitor(Monitor monitor_) {
 		Connection conn = null;
@@ -34,7 +34,7 @@ public class MonitorDAO {
 			pstm.setDate(5, DATE);
 			pstm.setString(6, "Novo Monitor Adicionado");
 			pstm.setString(7, "Entrada de Monitor");
-			pstm.setString(8, Window.collaborator);
+			pstm.setString(8, Window.getCollaborator().getName());
 
 			pstm.execute();
 			JOptionPane.showMessageDialog(null, "Monitor cadastrado com sucesso");
