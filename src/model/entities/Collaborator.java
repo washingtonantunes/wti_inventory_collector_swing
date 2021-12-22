@@ -3,15 +3,15 @@ package model.entities;
 public class Collaborator {
 
 	private String name;
-	private Integer registration;
+	private String registration;
 	private String password;
-	private Integer privilege;
+	private String privilege;
 	private String office;
 	
 	public Collaborator() {
 	}
 	
-	public Collaborator(String name, Integer registration, String password, Integer privilege, String office) {
+	public Collaborator(String name, String registration, String password, String privilege, String office) {
 		this.name = name;
 		this.registration = registration;
 		this.password = password;
@@ -27,11 +27,11 @@ public class Collaborator {
 		this.name = name;
 	}
 
-	public Integer getRegistration() {
+	public String getRegistration() {
 		return registration;
 	}
 
-	public void setRegistration(Integer registration) {
+	public void setRegistration(String registration) {
 		this.registration = registration;
 	}
 
@@ -43,11 +43,11 @@ public class Collaborator {
 		this.password = password;
 	}
 
-	public Integer getPrivilege() {
+	public String getPrivilege() {
 		return privilege;
 	}
 
-	public void setPrivilege(Integer privilege) {
+	public void setPrivilege(String privilege) {
 		this.privilege = privilege;
 	}
 

@@ -3,7 +3,7 @@ package application;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,11 +30,11 @@ public class Login extends JFrame {
 
     private JPasswordField passwordField_Password;
     private JTextField textField_Login;
-    
-    private static List<Collaborator> collaborators;
+
+    private static Map<String, Collaborator> collaborators;
 
 	public Login() {
-		initCollaborators();
+		initCollaborators();		
 		initButtons();
 		initLabels();
 		initComponents();
@@ -44,7 +44,6 @@ public class Login extends JFrame {
 		setLayout(null);
 
 		setTitle("wTI Inventory Collector");
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setPreferredSize(new Dimension(500, 450));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -54,35 +53,35 @@ public class Login extends JFrame {
 
 	private void initButtons() {
 		button_Entrar = new JButton("Entrar");
-		button_Entrar.setBounds(70, 250, 250, 45);
+		button_Entrar.setBounds(90, 350, 130, 30);
 		button_Entrar.addActionListener(new buttonLoginEquipmentListener());
 		add(button_Entrar);
 
 		button_Sair = new JButton("Sair");
-		button_Sair.setBounds(70, 310, 250, 45);
+		button_Sair.setBounds(270, 350, 130, 30);
 		button_Sair.addActionListener(new buttonLogOffMonitorListener());
 		add(button_Sair);
 	}
 
 	private void initLabels() {
-		label_Icon = new JLabel((new ImageIcon(getClass().getResource("/model/icon/iconMain.jpg"))));
-		label_Icon.setBounds(43, 60, 300, 180);
+		label_Icon = new JLabel((new ImageIcon(getClass().getResource("/model/icon/iconMain2.jpg"))));
+		label_Icon.setBounds(90, 40, 300, 180);
 		add(label_Icon);
 		
-		label_Login = new JLabel("Login");
-		label_Login.setBounds(43, 60, 300, 180);
+		label_Login = new JLabel("Matrícula");
+		label_Login.setBounds(60, 250, 130, 30);
 		add(label_Login);
 		
-		label_Password  = new JLabel("Sair");
-		label_Password.setBounds(43, 60, 300, 180);
+		label_Password  = new JLabel("Senha");
+		label_Password.setBounds(300, 250, 130, 30);
 		add(label_Password);
 		
 		textField_Login = new JTextField();
-		textField_Login.setBounds(43, 60, 300, 180);
+		textField_Login.setBounds(60, 280, 130, 30);
 		add(textField_Login);
 		
 	    passwordField_Password = new JPasswordField();
-	    passwordField_Password.setBounds(43, 60, 300, 180);
+	    passwordField_Password.setBounds(300, 280, 130, 30);
 		add(passwordField_Password);
 	}
 
@@ -92,21 +91,25 @@ public class Login extends JFrame {
 	}
 
 	private class buttonLoginEquipmentListener implements ActionListener {
+		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent e) {
-			final String registration = textField_Login.getText();
-	        final String password = new String(passwordField_Password.getPassword());
-	        final Collaborator collaborator = collaborators.stream().filter(c -> c.getRegistration().equals(registration)).findFirst().get();
-	        
-	        
-	        
-	        if((collaborator.getRegistration().equals(registration)) && (collaborator.getPassword().equals(password))) {
-	        	new Window(collaborator).setVisible(true);
-	        	dispose();
-	        	
-	        	
-	        } else {
-	            JOptionPane.showMessageDialog(null, "Acesso Negado!");
-	        }
+			if (textField_Login.getText().trim().isEmpty() || passwordField_Password.getText().trim().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "É necessário informar matrícula e senha!");
+			} else {
+				final String registration = textField_Login.getText();
+		        final String password = new String(passwordField_Password.getPassword());
+		        final Collaborator collaborator = collaborators.get(registration);
+		        if (collaborator == null) {
+		        	JOptionPane.showMessageDialog(null, "Colaborador Não Cadastrado!");
+		        } else {
+		        	if((collaborator.getRegistration().equals(registration)) && (collaborator.getPassword().equals(password))) {
+			        	new Window(collaborator).setVisible(true);
+			        	dispose();
+			        } else {
+			            JOptionPane.showMessageDialog(null, "Senha Inválida!");
+			        }
+		        }
+			}
 		}
 	}
 

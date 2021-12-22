@@ -92,7 +92,7 @@ public class Window extends JFrame {
 		label_text.setBounds(90, 20, 250, 50);
 		add(label_text);
 
-		label_icon = new JLabel((new ImageIcon(getClass().getResource("/model/icon/iconMain.jpg"))));
+		label_icon = new JLabel((new ImageIcon(getClass().getResource("/model/icon/iconMain1.jpg"))));
 		label_icon.setBounds(43, 60, 300, 180);
 		add(label_icon);
 	}
