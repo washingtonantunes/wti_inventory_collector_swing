@@ -37,7 +37,8 @@ public class CollaboratorDAO {
 			}
 			ConnectionFactory.fechaConexao(conn, pstm, rs);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Erro ao listar colaboradores: " + e.getMessage());
+			JOptionPane.showMessageDialog(null, "Erro ao conectar como o servidor, Entre em contato com o suporte técnico! ");
+			Runtime.getRuntime().exit(0);
 		}
 		return collaborators_;
 	}

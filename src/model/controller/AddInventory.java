@@ -161,6 +161,8 @@ public class AddInventory extends JDialog {
 		setTitle("Adicionar Inventory");
 		setPreferredSize(DIMENSIONMAINPANEL);
 		setResizable(false);
+		
+		getRootPane().setDefaultButton(buttonSave);
 
 		add(panelMainAddInventory);
 

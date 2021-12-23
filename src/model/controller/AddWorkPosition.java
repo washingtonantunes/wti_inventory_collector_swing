@@ -14,10 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-
 import model.DAO.WorkPositionDAO;
-import model.entities.Option;
 import model.entities.WorkPosition;
 
 public class AddWorkPosition extends JDialog {
@@ -29,7 +26,7 @@ public class AddWorkPosition extends JDialog {
 
 	private static final Dimension DIMENSIONMAINPANEL = new Dimension(350, 270);
 	
-	private Option option = new Option();
+	private Options options = new Options();
 
 	private JPanel panelMainAddWorkPosition;
 
@@ -74,6 +71,8 @@ public class AddWorkPosition extends JDialog {
 		setTitle("Adicionar Posição de Trabalho");
 		setPreferredSize(DIMENSIONMAINPANEL);
 		setResizable(false);
+		
+		getRootPane().setDefaultButton(buttonSave);
 
 		add(panelMainAddWorkPosition);
 
@@ -102,19 +101,17 @@ public class AddWorkPosition extends JDialog {
 
 	private void addTextFields() {
 		textField_WorkPoint = new JTextField();
-		comboBox_Location = new JComboBox<>(new Vector<>(option.getLocation()));
-		comboBox_Floors = new JComboBox<>(new Vector<>(option.getFloors()));
+		comboBox_Location = new JComboBox<>(new Vector<>(options.getLocation()));
+		comboBox_Floors = new JComboBox<>(new Vector<>(options.getFloors()));
 		textField_NetPoint = new JTextField();
 
 		textField_WorkPoint.setBounds(150, 10, WIDTH, HEIGHT);
 		panelMainAddWorkPosition.add(textField_WorkPoint);
 
-		AutoCompleteDecorator.decorate(comboBox_Location);
 		comboBox_Location.setSelectedIndex(-1);
 		comboBox_Location.setBounds(150, 50, WIDTH, HEIGHT);
 		panelMainAddWorkPosition.add(comboBox_Location);
 
-		AutoCompleteDecorator.decorate(comboBox_Floors);
 		comboBox_Floors.setSelectedIndex(-1);
 		comboBox_Floors.setBounds(150, 90, WIDTH, HEIGHT);
 		panelMainAddWorkPosition.add(comboBox_Floors);

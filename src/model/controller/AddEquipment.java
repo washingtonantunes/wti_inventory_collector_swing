@@ -13,11 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-
 import model.DAO.EquipmentDAO;
 import model.entities.Equipment;
-import model.entities.Option;
 
 public class AddEquipment extends JDialog {
 
@@ -28,7 +25,7 @@ public class AddEquipment extends JDialog {
 
 	private static final Dimension DIMENSIONMAINPANEL = new Dimension(370, 470);
 
-	private Option option = new Option();
+	private Options options = new Options();
 
 	private JPanel panelMainAddEquipment;
 
@@ -85,6 +82,8 @@ public class AddEquipment extends JDialog {
 		setTitle("Adicionar Equipamento");
 		setPreferredSize(DIMENSIONMAINPANEL);
 		setResizable(false);
+		
+		getRootPane().setDefaultButton(buttonSave);
 
 		add(panelMainAddEquipment);
 
@@ -135,15 +134,13 @@ public class AddEquipment extends JDialog {
 		label_show_SerialNumber = new JLabel(equipment.getSerialNumber());
 		label_show_HostName = new JLabel(equipment.getHostName());
 		label_show_AddressMAC = new JLabel(equipment.getAddressMAC());
-		comboBox_TypeEquipment = new JComboBox<>(new Vector<>(option.getTypeEquipment()));
-		comboBox_TypeEquipment.getModel().setSelectedItem(equipment.getTypeEquipment());
+		comboBox_TypeEquipment = new JComboBox<>(new Vector<>(options.getTypeEquipment()));
 		textField_PatrimonyNumberEquipment = new JTextField();
 		label_show_BrandEquipment = new JLabel(equipment.getBrandEquipment());
 		label_show_ModelEquipment = new JLabel(equipment.getModelEquipment());
-		comboBox_MemoryRam = new JComboBox<>(new Vector<>(option.getMemoryRam()));
+		comboBox_MemoryRam = new JComboBox<>(new Vector<>(options.getMemoryRam()));
 		comboBox_MemoryRam.getModel().setSelectedItem(equipment.getMemoryRam());
-		comboBox_HardDisk = new JComboBox<>(new Vector<>(option.getHardDisk()));
-		comboBox_HardDisk.getModel().setSelectedItem(equipment.getHardDisk());
+		comboBox_HardDisk = new JComboBox<>(new Vector<>(options.getHardDisk()));
 
 		label_show_SerialNumber.setBounds(170, 10, WIDTH, HEIGHT);
 		panelMainAddEquipment.add(label_show_SerialNumber);
@@ -154,7 +151,6 @@ public class AddEquipment extends JDialog {
 		label_show_AddressMAC.setBounds(170, 90, WIDTH, HEIGHT);
 		panelMainAddEquipment.add(label_show_AddressMAC);
 
-		AutoCompleteDecorator.decorate(comboBox_TypeEquipment);
 		comboBox_TypeEquipment.setSelectedIndex(-1);
 		comboBox_TypeEquipment.setBounds(170, 130, WIDTH, HEIGHT);
 		panelMainAddEquipment.add(comboBox_TypeEquipment);
@@ -168,12 +164,10 @@ public class AddEquipment extends JDialog {
 		label_show_ModelEquipment.setBounds(170, 250, WIDTH, HEIGHT);
 		panelMainAddEquipment.add(label_show_ModelEquipment);
 
-		AutoCompleteDecorator.decorate(comboBox_MemoryRam);
 		comboBox_MemoryRam.setSelectedIndex(-1);
 		comboBox_MemoryRam.setBounds(170, 290, WIDTH, HEIGHT);
 		panelMainAddEquipment.add(comboBox_MemoryRam);
 
-		AutoCompleteDecorator.decorate(comboBox_HardDisk);
 		comboBox_HardDisk.setSelectedIndex(-1);
 		comboBox_HardDisk.setBounds(170, 330, WIDTH, HEIGHT);
 		panelMainAddEquipment.add(comboBox_HardDisk);

@@ -34,7 +34,7 @@ public class Login extends JFrame {
     private static Map<String, Collaborator> collaborators;
 
 	public Login() {
-		initCollaborators();		
+		initCollaborators();	
 		initButtons();
 		initLabels();
 		initComponents();
@@ -45,8 +45,11 @@ public class Login extends JFrame {
 
 		setTitle("wTI Inventory Collector");
 		setPreferredSize(new Dimension(500, 450));
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		getRootPane().setDefaultButton(button_Entrar);
+		
 		pack();
 		setLocationRelativeTo(null);
 	}

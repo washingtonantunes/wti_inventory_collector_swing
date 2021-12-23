@@ -13,12 +13,14 @@ import javax.swing.JLabel;
 
 import model.DAO.EquipmentDAO;
 import model.DAO.MonitorDAO;
+import model.DAO.OptionDAO;
 import model.DAO.ProjectDAO;
 import model.DAO.UserDAO;
 import model.DAO.WorkPositionDAO;
 import model.entities.Collaborator;
 import model.entities.Equipment;
 import model.entities.Monitor;
+import model.entities.Option;
 import model.entities.Project;
 import model.entities.User;
 import model.entities.WorkPosition;
@@ -41,6 +43,7 @@ public class Window extends JFrame {
 	private static List<WorkPosition> workPosition;
 	private static List<User> users;
 	private static Collaborator collaborator;
+	private static List<Option> options;
 	
 	private SearchData searcData;
 
@@ -56,8 +59,8 @@ public class Window extends JFrame {
 		setLayout(null);
 
 		setTitle("wTI Inventory Collector");
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setPreferredSize(new Dimension(400, 600));
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		pack();
@@ -131,6 +134,11 @@ public class Window extends JFrame {
 		UserDAO userDAO = new UserDAO();
 		users = userDAO.getUser();
 	}
+	
+	private void initOption() {
+		OptionDAO optionDAO = new OptionDAO();
+		options = optionDAO.getOption();
+	}
 
 	public static Collaborator getCollaborator() {
 		return collaborator;
@@ -159,9 +167,14 @@ public class Window extends JFrame {
 	public static List<User> getUser() {
 		return users;
 	}
+	
+	public static List<Option> getOption() {
+		return options;
+	}
 
 	private class buttonAddEquipmentListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			initOption();
 			AddEquipment addEquipment = new AddEquipment(searcData.getEquipment());
 			addEquipment.setVisible(true);
 		}
@@ -169,6 +182,7 @@ public class Window extends JFrame {
 
 	private class buttonAddMonitorListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			initOption();
 			AddMonitor addMonitor = new AddMonitor();
 			addMonitor.setVisible(true);
 		}
@@ -176,6 +190,7 @@ public class Window extends JFrame {
 
 	private class buttonAddWorkPositionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			initOption();
 			AddWorkPosition addWorkPosition = new AddWorkPosition();
 			addWorkPosition.setVisible(true);
 		}

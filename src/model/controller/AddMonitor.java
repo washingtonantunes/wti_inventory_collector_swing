@@ -13,11 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-
 import model.DAO.MonitorDAO;
 import model.entities.Monitor;
-import model.entities.Option;
 
 public class AddMonitor extends JDialog {
 
@@ -28,7 +25,7 @@ public class AddMonitor extends JDialog {
 
 	private static final Dimension DIMENSIONMAINPANEL = new Dimension(370, 230);
 	
-	private Option option = new Option();
+	private Options options = new Options();
 
 	private JPanel panelMainAddMonitor;
 
@@ -71,6 +68,8 @@ public class AddMonitor extends JDialog {
 		setTitle("Adicionar Monitor");
 		setPreferredSize(DIMENSIONMAINPANEL);
 		setResizable(false);
+		
+		getRootPane().setDefaultButton(buttonSave);
 
 		add(panelMainAddMonitor);
 
@@ -95,13 +94,12 @@ public class AddMonitor extends JDialog {
 
 	private void addTextFields() {
 		textField_SerialNumberMonitor = new JTextField();
-		comboBox_ModelMonitor = new JComboBox<>(new Vector<>(option.getMonitor()));
+		comboBox_ModelMonitor = new JComboBox<>(new Vector<>(options.getMonitor()));
 		textField_PatrimonyNumber = new JTextField();
 				
 		textField_SerialNumberMonitor.setBounds(170, 10, 150, HEIGHT);
 		panelMainAddMonitor.add(textField_SerialNumberMonitor);
 
-		AutoCompleteDecorator.decorate(comboBox_ModelMonitor);
 		comboBox_ModelMonitor.setSelectedIndex(-1);
 		comboBox_ModelMonitor.setBounds(170, 50, 150, HEIGHT);
 		panelMainAddMonitor.add(comboBox_ModelMonitor);
