@@ -36,25 +36,23 @@ public class Window extends JFrame {
 	private JButton buttonAddMonitor;
 	private JButton buttonAddWorkPosition;
 	private JButton buttonAddInventory;
-
+	
 	private static List<Project> projects;
 	private static List<Monitor> monitors;
-	private static Equipment equipment;
 	private static List<WorkPosition> workPosition;
 	private static List<User> users;
-	private static Collaborator collaborator;
 	private static List<Option> options;
 	
+	private static Equipment equipment;
+	private static Collaborator collaborator;
 	private SearchData searcData;
 
 	public Window(Collaborator collaborator_) {
 		searcData = new SearchData();
 		collaborator = collaborator_;
-		initButtons();
-		initLabels();
 		initComponents();
 	}
-
+	
 	private void initComponents() {
 		setLayout(null);
 
@@ -63,10 +61,13 @@ public class Window extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		initButtons();
+		initLabels();
+		
 		pack();
 		setLocationRelativeTo(null);
 	}
-
+	
 	private void initButtons() {
 		buttonAddEquipment = new JButton("Adicionar Equipamento");
 		buttonAddEquipment.setBounds(70, 250, 250, 45);
@@ -88,7 +89,7 @@ public class Window extends JFrame {
 		buttonAddInventory.addActionListener(new buttonAddEquipmenListener());
 		add(buttonAddInventory);
 	}
-
+	
 	private void initLabels() {
 		label_text = new JLabel("Bem-Vindo ao wTI Inventory Collector");
 		label_text.setForeground(Color.BLUE);
@@ -99,7 +100,7 @@ public class Window extends JFrame {
 		label_icon.setBounds(43, 60, 300, 180);
 		add(label_icon);
 	}
-
+	
 	private void initProject() {
 		ProjectDAO projectDAO = new ProjectDAO();
 		projects = projectDAO.getProject();
@@ -110,26 +111,16 @@ public class Window extends JFrame {
 		monitors = monitorDAO.getMonitor();
 	}
 	
-	public static void updateMonitor() {
-		MonitorDAO monitorDAO = new MonitorDAO();
-		monitors = monitorDAO.getMonitor();
-	}
-
-	private void initEquipment() {
-		EquipmentDAO equipmentDAO = new EquipmentDAO();
-		equipment = equipmentDAO.getEquipment(searcData.getEquipment().getSerialNumber());
-	}
-
 	private void initWorkPosition() {
 		WorkPositionDAO workPositionDAO = new WorkPositionDAO();
 		workPosition = workPositionDAO.getWorkPosition();
 	}
 	
-	public static void updateWorkPosition() {
-		WorkPositionDAO workPositionDAO = new WorkPositionDAO();
-		workPosition = workPositionDAO.getWorkPosition();
+	private void initEquipment() {
+		EquipmentDAO equipmentDAO = new EquipmentDAO();
+		equipment = equipmentDAO.getEquipment(searcData.getEquipment().getSerialNumber());
 	}
-
+	
 	private void initUser() {
 		UserDAO userDAO = new UserDAO();
 		users = userDAO.getUser();
@@ -139,11 +130,7 @@ public class Window extends JFrame {
 		OptionDAO optionDAO = new OptionDAO();
 		options = optionDAO.getOption();
 	}
-
-	public static Collaborator getCollaborator() {
-		return collaborator;
-	}
-
+	
 	public static List<Project> getProject() {
 		return projects;
 	}
@@ -151,19 +138,11 @@ public class Window extends JFrame {
 	public static List<Monitor> getMonitor() {
 		return monitors;
 	}
-
-	public static Equipment getEquipment() {
-		return equipment;
-	}
-
-	public static void setEquipment(Equipment equipment) {
-		Window.equipment = equipment;
-	}
-
+	
 	public static List<WorkPosition> getWorkPosition() {
 		return workPosition;
 	}
-
+	
 	public static List<User> getUser() {
 		return users;
 	}
@@ -171,7 +150,19 @@ public class Window extends JFrame {
 	public static List<Option> getOption() {
 		return options;
 	}
+	
+	public static Equipment getEquipment() {
+		return equipment;
+	}
 
+	public static void setEquipment(Equipment equipment_) {
+		equipment = equipment_;
+	}
+	
+	public static Collaborator getCollaborator() {
+		return collaborator;
+	}
+	
 	private class buttonAddEquipmentListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			initOption();

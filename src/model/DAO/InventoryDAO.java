@@ -9,46 +9,48 @@ import javax.swing.JOptionPane;
 import connection.ConnectionFactory;
 import model.controller.Window;
 import model.entities.Inventory;
+import model.entities.InventoryTest;
 
 
 public class InventoryDAO {
 
 	private final java.sql.Date DATE = new java.sql.Date(new Date().getTime());
 
-	private final String INSERT = "CALL wti_inventory.add_inventory_collector(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private final String INSERT = "CALL `wti_inventory`.`add_inventory`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private final String LIST = "CALL wti_inventory.list_inventory_collector(?)";
 
-	public int addInventory(Inventory inventory_, Boolean workPosition, String changesWorkPosition,
-			String changesEquipment, String changesMonitor1, String changesMonitor2) {
+	public boolean addInventory(InventoryTest inventory_) {
 		Connection conn = null;
 		try {
 			conn = ConnectionFactory.getConexao();
 			PreparedStatement pstm;
 			pstm = conn.prepareStatement(INSERT);
 
-			pstm.setString(1, inventory_.getWorkPosition().getWorkPoint()); // workPositionAdd
-			pstm.setBoolean(2, workPosition); // workPositionTeste
-			pstm.setString(3, inventory_.getProject().getNameProject()); // project
-			pstm.setString(4, inventory_.getUser().getRegistration()); // user
-			pstm.setString(5, inventory_.getEquipment().getSerialNumber()); // equipment
-			pstm.setString(6, inventory_.getMonitor1().getSerialNumberMonitor()); // monitor1
-			pstm.setString(7, inventory_.getMonitor2().getSerialNumberMonitor()); // monitor2
-			pstm.setDate(8, DATE); // data
-			pstm.setString(9, changesWorkPosition); // changes WorkPosition
-			pstm.setString(10, changesEquipment); // changes equipment
-			pstm.setString(11, changesMonitor1); // changes monitor1
-			pstm.setString(12, changesMonitor2); // changes monitor2
-			pstm.setString(13, "Saída de Inventário"); // typeChange
-			pstm.setString(14, Window.getCollaborator().getName()); // author
+			pstm.setBoolean(1, inventory_.isWorkPositionBoolean()); //WorkPositionBoolean
+			pstm.setString(2, inventory_.getWorkPosition().getWorkPoint()); // WorkPosition
+			pstm.setString(3, inventory_.getChangesWorkPosition()); // WorkPositionChanges
+			pstm.setBoolean(4, inventory_.isEquipmentBoolean()); //EquipmentBoolean
+			pstm.setString(5, inventory_.getEquipment().getSerialNumber()); // Equipment
+			pstm.setString(6, inventory_.getChangesEquipment()); // EquipmentChanges
+			pstm.setBoolean(7, inventory_.isMonitor1Boolean()); //Monitor1Boolean
+			pstm.setString(8, inventory_.getMonitor1().getSerialNumberMonitor()); // Monitor1
+			pstm.setString(9, inventory_.getChangesMonitor1()); // Monitor1Changes
+			pstm.setBoolean(10, inventory_.isMonitor2Boolean()); //Monitor2Boolean
+			pstm.setString(11, inventory_.getMonitor2().getSerialNumberMonitor()); // Monitor2
+			pstm.setString(12, inventory_.getChangesMonitor2()); // Monitor2Changes
+			pstm.setString(13, inventory_.getProject().getNameProject()); // project
+			pstm.setString(14, inventory_.getUser().getRegistration()); // user
+			pstm.setDate(15, DATE); // data
+			pstm.setString(16, "Saída de Inventário"); // typeChange
+			pstm.setString(17, Window.getCollaborator().getName()); // author
 
 			pstm.execute();
 			JOptionPane.showMessageDialog(null, "Inventário adicionado com sucesso");
 			ConnectionFactory.fechaConexao(conn, pstm);
-			return 1;
-
+			return true;
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Erro ao remover inventário no banco de dados: " + e.getMessage());
-			return -1;
+			JOptionPane.showMessageDialog(null, "Erro ao adicionar inventário no banco de dados: " + e.getMessage());
+			return false;
 		}
 	}
 

@@ -1,11 +1,11 @@
 package model.controller;
 
-import java.awt.Dimension;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 import java.util.Vector;
 
@@ -15,16 +15,18 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import model.DAO.InventoryDAO;
 import model.entities.Equipment;
-import model.entities.Inventory;
+import model.entities.InventoryTest;
 import model.entities.Monitor;
 import model.entities.Project;
 import model.entities.User;
 import model.entities.WorkPosition;
-import model.util.Utilitary;
+import model.util.CreatePDFFileDelivery;
+import services.InventoryService;
 
 public class AddInventory extends JDialog {
 
@@ -505,41 +507,94 @@ public class AddInventory extends JDialog {
 					&& (comboBox_SerialNumberMonitor2.getSelectedIndex() > -1)) {
 				JOptionPane.showMessageDialog(null, "Os dois monitores selecionados são iguais!");
 			} else {
-				Inventory inventory_ = new Inventory();
-				boolean workPosition = false;
+				InventoryTest inventory_ = new InventoryTest();
 
+				// WorkPosition Test
 				if (comboBox_WorkPosition.getSelectedIndex() > -1) {
 					inventory_.getWorkPosition().setWorkPoint(comboBox_WorkPosition.getSelectedItem().toString());
-					workPosition = true;
+					if (!comboBox_WorkPosition.getSelectedItem().equals("HOME-OFFICE")) {
+						inventory_.setWorkPositionBoolean(true);
+					}
+				} else {
+					inventory_.getWorkPosition().setWorkPoint("");
 				}
 
-				inventory_.getProject().setNameProject(comboBox_Project.getSelectedItem().toString());
+				// Project Test
+				if (comboBox_Project.getSelectedIndex() > -1) {
+					inventory_.getProject().setNameProject(comboBox_Project.getSelectedItem().toString());
+					inventory_.getProject().setLocality(label_show_Locality.getText());
+				} else {
+					inventory_.getProject().setNameProject("");
+				}
 
-				inventory_.getEquipment().setSerialNumber(label_show_SerialNumberEquipment.getText());
-				
+				// Equipment Test
+				if (label_show_SerialNumberEquipment.getText() != null) {
+					inventory_.getEquipment()
+							.setSerialNumber(label_show_SerialNumberEquipment.getText());
+					inventory_.getEquipment().setHostName(label_show_HostName.getText());
+					inventory_.getEquipment().setAddressMAC(label_show_AddressMAC.getText());
+					inventory_.getEquipment().setTypeEquipment(label_show_TypeEquipment.getText());
+					inventory_.getEquipment()
+							.setPatrimonyNumberEquipment(label_show_PatrimonyNumberEquipment.getText());
+					inventory_.getEquipment().setBrandEquipment(label_show_BrandEquipment.getText());
+					inventory_.getEquipment().setModelEquipment(label_show_ModelEquipment.getText());
+					inventory_.getEquipment().setMemoryRam(label_show_MemoryRam.getText());
+					inventory_.getEquipment().setHardDisk(label_show_HardDisk.getText());
+					inventory_.getEquipment().setCostType(label_show_CostType.getText());
+					inventory_.getEquipment()
+							.setValueEquipment(Double.parseDouble(label_show_ValueEquipment.getText()));
+					inventory_.getEquipment().setStatusEquipment(label_show_StatusEquipment.getText());
+					inventory_.setEquipmentBoolean(true);
+				} else {
+					inventory_.getProject().setNameProject("");
+				}
+
+				// User Test
 				if (comboBox_Registration.getSelectedIndex() > -1) {
 					inventory_.getUser().setRegistration(comboBox_Registration.getSelectedItem().toString());
+					inventory_.getUser().setNameUser(label_show_NameUser.getText());
+					inventory_.getUser().setCPF(label_show_CPF.getText());
+					inventory_.getUser().setPhone(label_show_Phone.getText());
+					inventory_.getUser().setEmail(label_show_Email.getText());
+					inventory_.getUser().setDepartment(label_show_Department.getText());
+					inventory_.setUserBoolean(true);
+				} else {
+					inventory_.getUser().setRegistration("");
 				}
 
+				// Monitor1 Test
 				if (comboBox_SerialNumberMonitor1.getSelectedIndex() > -1) {
 					inventory_.getMonitor1()
 							.setSerialNumberMonitor(comboBox_SerialNumberMonitor1.getSelectedItem().toString());
+					inventory_.getMonitor1().setModelMonitor(label_show_modelMonitor1.getText());
+					inventory_.getMonitor1().setPatrimonyNumberMonitor(label_show_patrimonyNumberMonitor1.getText());
+					inventory_.setMonitor1Boolean(true);
+				} else {
+					inventory_.getMonitor1().setSerialNumberMonitor("");
 				}
 
+				// Monitor2 Test
 				if (comboBox_SerialNumberMonitor2.getSelectedIndex() > -1) {
 					inventory_.getMonitor2()
 							.setSerialNumberMonitor(comboBox_SerialNumberMonitor2.getSelectedItem().toString());
+					inventory_.getMonitor2().setModelMonitor(label_show_modelMonitor2.getText());
+					inventory_.getMonitor2().setPatrimonyNumberMonitor(label_show_patrimonyNumberMonitor2.getText());
+					inventory_.setMonitor2Boolean(true);
+				} else {
+					inventory_.getMonitor2().setSerialNumberMonitor("");
 				}
 
 				InventoryDAO inventoryDAO_ = new InventoryDAO();
-				inventoryDAO_.addInventory(inventory_, 
-											workPosition, 
-											Utilitary.createChangeInventoryWorkPositionDelivery(inventory_.getWorkPosition().getWorkPoint(), inventory_.getEquipment().getSerialNumber()), 
-											Utilitary.createChangeInventoryEquipmentDelivery(inventory_.getWorkPosition().getWorkPoint(), inventory_.getUser().getRegistration()),
-											Utilitary.createChangeInventoryMonitorDelivery(inventory_.getWorkPosition().getWorkPoint(), inventory_.getUser().getRegistration()), 
-											Utilitary.createChangeInventoryMonitorDelivery(inventory_.getWorkPosition().getWorkPoint(), inventory_.getUser().getRegistration()));
 
-				dispose();
+				if (inventoryDAO_.addInventory(InventoryService.createChangeInventoryDelivery(inventory_))) {
+
+					if (JOptionPane.showConfirmDialog(null,
+							"Deseja gerar o termo de entrega?") == JOptionPane.YES_OPTION) {
+						new CreatePDFFileDelivery(inventory_);
+					}
+				} else {
+					dispose();
+				}
 			}
 		}
 	}

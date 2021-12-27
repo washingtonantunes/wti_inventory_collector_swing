@@ -8,5 +8,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/temp/mysql-connector-java-8.0.27.jar"/>
 	<classpathentry kind="lib" path="C:/temp/jar lib xternal/swingx-all-1.6.4.jar"/>
+	<classpathentry kind="lib" path="C:/temp/itext5-5.5.10/itextpdf-5.5.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
