@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import model.DAO.WorkPositionDAO;
+import model.entities.Option;
 import model.entities.WorkPosition;
 
 public class AddWorkPosition extends JDialog {
@@ -25,8 +27,6 @@ public class AddWorkPosition extends JDialog {
 	private static final int HEIGHT = 25;
 
 	private static final Dimension DIMENSIONMAINPANEL = new Dimension(350, 270);
-	
-	private Options options = new Options();
 
 	private JPanel panelMainAddWorkPosition;
 
@@ -101,8 +101,12 @@ public class AddWorkPosition extends JDialog {
 
 	private void addTextFields() {
 		textField_WorkPoint = new JTextField();
-		comboBox_Location = new JComboBox<>(new Vector<>(options.getLocation()));
-		comboBox_Floors = new JComboBox<>(new Vector<>(options.getFloors()));
+		comboBox_Location = new JComboBox<>(new Vector<>(Window.getOption().stream()
+				.filter(o -> o.getType().equals("LOCALIZAÇÃO") && o.getStatusOption().equals("ATIVO"))
+				.map(Option::getOption).collect(Collectors.toList())));
+		comboBox_Floors = new JComboBox<>(new Vector<>(Window.getOption().stream()
+				.filter(o -> o.getType().equals("ANDAR") && o.getStatusOption().equals("ATIVO"))
+				.map(Option::getOption).collect(Collectors.toList())));
 		textField_NetPoint = new JTextField();
 
 		textField_WorkPoint.setBounds(150, 10, WIDTH, HEIGHT);

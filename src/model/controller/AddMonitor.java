@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,6 +16,7 @@ import javax.swing.JTextField;
 
 import model.DAO.MonitorDAO;
 import model.entities.Monitor;
+import model.entities.Option;
 
 public class AddMonitor extends JDialog {
 
@@ -24,8 +26,6 @@ public class AddMonitor extends JDialog {
 	private static final int HEIGHT = 25;
 
 	private static final Dimension DIMENSIONMAINPANEL = new Dimension(370, 230);
-	
-	private Options options = new Options();
 
 	private JPanel panelMainAddMonitor;
 
@@ -94,7 +94,9 @@ public class AddMonitor extends JDialog {
 
 	private void addTextFields() {
 		textField_SerialNumberMonitor = new JTextField();
-		comboBox_ModelMonitor = new JComboBox<>(new Vector<>(options.getMonitor()));
+		comboBox_ModelMonitor = new JComboBox<>(new Vector<>(Window.getOption().stream()
+				.filter(o -> o.getType().equals("MONITOR") && o.getStatusOption().equals("ATIVO"))
+				.map(Option::getOption).collect(Collectors.toList())));
 		textField_PatrimonyNumber = new JTextField();
 				
 		textField_SerialNumberMonitor.setBounds(170, 10, 150, HEIGHT);

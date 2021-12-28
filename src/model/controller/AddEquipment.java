@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,6 +16,7 @@ import javax.swing.JTextField;
 
 import model.DAO.EquipmentDAO;
 import model.entities.Equipment;
+import model.entities.Option;
 
 public class AddEquipment extends JDialog {
 
@@ -24,8 +26,6 @@ public class AddEquipment extends JDialog {
 	private static final int HEIGHT = 25;
 
 	private static final Dimension DIMENSIONMAINPANEL = new Dimension(370, 470);
-
-	private Options options = new Options();
 
 	private JPanel panelMainAddEquipment;
 
@@ -134,13 +134,18 @@ public class AddEquipment extends JDialog {
 		label_show_SerialNumber = new JLabel(equipment.getSerialNumber());
 		label_show_HostName = new JLabel(equipment.getHostName());
 		label_show_AddressMAC = new JLabel(equipment.getAddressMAC());
-		comboBox_TypeEquipment = new JComboBox<>(new Vector<>(options.getTypeEquipment()));
+		comboBox_TypeEquipment = new JComboBox<>(new Vector<>(Window.getOption().stream()
+				.filter(o -> o.getType().equals("TIPO DE EQUIPAMENTO") && o.getStatusOption().equals("ATIVO"))
+				.map(Option::getOption).collect(Collectors.toList())));
 		textField_PatrimonyNumberEquipment = new JTextField();
 		label_show_BrandEquipment = new JLabel(equipment.getBrandEquipment());
 		label_show_ModelEquipment = new JLabel(equipment.getModelEquipment());
-		comboBox_MemoryRam = new JComboBox<>(new Vector<>(options.getMemoryRam()));
-		comboBox_MemoryRam.getModel().setSelectedItem(equipment.getMemoryRam());
-		comboBox_HardDisk = new JComboBox<>(new Vector<>(options.getHardDisk()));
+		comboBox_MemoryRam = new JComboBox<>(new Vector<>(Window.getOption().stream()
+				.filter(o -> o.getType().equals("MEMÓRIA RAM") && o.getStatusOption().equals("ATIVO"))
+				.map(Option::getOption).collect(Collectors.toList())));
+		comboBox_HardDisk = new JComboBox<>(new Vector<>(Window.getOption().stream()
+				.filter(o -> o.getType().equals("DISCO RIGIDO") && o.getStatusOption().equals("ATIVO"))
+				.map(Option::getOption).collect(Collectors.toList())));
 
 		label_show_SerialNumber.setBounds(170, 10, WIDTH, HEIGHT);
 		panelMainAddEquipment.add(label_show_SerialNumber);

@@ -51,4 +51,13 @@ public class Utilitary {
 		} 
 		return null;
 	}
+	
+	public static boolean ToCheckHostName(String hostNameToCheck_) {
+		String a = hostNameToCheck_.substring(0, 6);
+
+		if (a.equalsIgnoreCase("SPODSK") || a.equalsIgnoreCase("SPONTB")) {
+			return true;
+		}
+		return false;
+	}
 }

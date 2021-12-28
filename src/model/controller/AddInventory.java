@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -125,14 +125,9 @@ public class AddInventory extends JDialog {
 	private JLabel label_show_Email;
 	private JLabel label_show_Department;
 
-	private List<WorkPosition> workPositions;
-	private List<Project> projects;
-	private List<User> users;
 	private Equipment equipment;
-	private List<Monitor> monitors;
 
 	public AddInventory() {
-		initVariables();
 		initComponents();
 	}
 
@@ -163,7 +158,7 @@ public class AddInventory extends JDialog {
 		setTitle("Adicionar Inventory");
 		setPreferredSize(DIMENSIONMAINPANEL);
 		setResizable(false);
-		
+
 		getRootPane().setDefaultButton(buttonSave);
 
 		add(panelMainAddInventory);
@@ -194,7 +189,8 @@ public class AddInventory extends JDialog {
 		label_NetPoint.setForeground(COLOR_1);
 		panelMainAddInventory.add(label_NetPoint);
 
-		comboBox_WorkPosition = new JComboBox<>(new Vector<>(workPositions));
+		comboBox_WorkPosition = new JComboBox<>(new Vector<>(
+				Window.getWorkPosition().stream().filter(m -> m.getStatusWorkPoint().equals("ATIVO")).collect(Collectors.toList())));
 		label_show_Location = new JLabel();
 		label_show_Floors = new JLabel();
 		label_show_NetPoint = new JLabel();
@@ -232,7 +228,8 @@ public class AddInventory extends JDialog {
 		label_Locality.setForeground(COLOR_1);
 		panelMainAddInventory.add(label_Locality);
 
-		comboBox_Project = new JComboBox<>(new Vector<>(projects));
+		comboBox_Project = new JComboBox<>(new Vector<>(Window.getProject().stream()
+				.filter(p -> p.getStatusProject().equals("ATIVO")).collect(Collectors.toList())));
 		label_show_CostCenter = new JLabel();
 		label_show_Locality = new JLabel();
 
@@ -281,7 +278,8 @@ public class AddInventory extends JDialog {
 		label_Department.setForeground(COLOR_1);
 		panelMainAddInventory.add(label_Department);
 
-		comboBox_Registration = new JComboBox<>(new Vector<>(users));
+		comboBox_Registration = new JComboBox<>(new Vector<>(
+				Window.getUser().stream().filter(u -> u.getStatusUser().equals("ATIVO")).collect(Collectors.toList())));
 		label_show_NameUser = new JLabel();
 		label_show_CPF = new JLabel();
 		label_show_Phone = new JLabel();
@@ -382,7 +380,8 @@ public class AddInventory extends JDialog {
 		label_show_MemoryRam = new JLabel(equipment.getMemoryRam());
 		label_show_HardDisk = new JLabel(equipment.getHardDisk());
 		label_show_CostType = new JLabel(equipment.getCostType());
-		label_show_ValueEquipment = new JLabel(equipment.getValueEquipment() == null ? null : equipment.getValueEquipment().toString());
+		label_show_ValueEquipment = new JLabel(
+				equipment.getValueEquipment() == null ? null : equipment.getValueEquipment().toString());
 		label_show_StatusEquipment = new JLabel(equipment.getStatusEquipment());
 
 		label_show_SerialNumberEquipment.setBounds(LINE_4, 90, WIDTH, HEIGHT);
@@ -439,7 +438,8 @@ public class AddInventory extends JDialog {
 		label_PatrimonyNumberMonitor1.setForeground(COLOR_1);
 		panelMainAddInventory.add(label_PatrimonyNumberMonitor1);
 
-		comboBox_SerialNumberMonitor1 = new JComboBox<>(new Vector<>(monitors));
+		comboBox_SerialNumberMonitor1 = new JComboBox<>(new Vector<>(Window.getMonitor().stream()
+				.filter(m -> m.getStatusMonitor().equals("STAND BY")).collect(Collectors.toList())));
 		label_show_modelMonitor1 = new JLabel();
 		label_show_patrimonyNumberMonitor1 = new JLabel();
 
@@ -473,7 +473,8 @@ public class AddInventory extends JDialog {
 		label_PatrimonyNumberMonitor2.setForeground(COLOR_1);
 		panelMainAddInventory.add(label_PatrimonyNumberMonitor2);
 
-		comboBox_SerialNumberMonitor2 = new JComboBox<>(new Vector<>(monitors));
+		comboBox_SerialNumberMonitor2 = new JComboBox<>(new Vector<>(Window.getMonitor().stream()
+				.filter(m -> m.getStatusMonitor().equals("STAND BY")).collect(Collectors.toList())));
 		label_show_modelMonitor2 = new JLabel();
 		label_show_patrimonyNumberMonitor2 = new JLabel();
 
@@ -512,7 +513,7 @@ public class AddInventory extends JDialog {
 				// WorkPosition Test
 				if (comboBox_WorkPosition.getSelectedIndex() > -1) {
 					inventory_.getWorkPosition().setWorkPoint(comboBox_WorkPosition.getSelectedItem().toString());
-					if (!comboBox_WorkPosition.getSelectedItem().equals("HOME-OFFICE")) {
+					if (!comboBox_WorkPosition.getSelectedItem().toString().equals("HOME-OFFICE")) {
 						inventory_.setWorkPositionBoolean(true);
 					}
 				} else {
@@ -529,8 +530,7 @@ public class AddInventory extends JDialog {
 
 				// Equipment Test
 				if (label_show_SerialNumberEquipment.getText() != null) {
-					inventory_.getEquipment()
-							.setSerialNumber(label_show_SerialNumberEquipment.getText());
+					inventory_.getEquipment().setSerialNumber(label_show_SerialNumberEquipment.getText());
 					inventory_.getEquipment().setHostName(label_show_HostName.getText());
 					inventory_.getEquipment().setAddressMAC(label_show_AddressMAC.getText());
 					inventory_.getEquipment().setTypeEquipment(label_show_TypeEquipment.getText());
@@ -625,18 +625,6 @@ public class AddInventory extends JDialog {
 			label_show_Email.setText("");
 			label_show_Department.setText("");
 		}
-	}
-
-	private void initVariables() {
-		this.equipment = Window.getEquipment();
-
-		this.projects = Window.getProject();
-
-		this.monitors = Window.getMonitor();
-
-		this.workPositions = Window.getWorkPosition();
-
-		this.users = Window.getUser();
 	}
 
 	private class ItemChangeWorkPositionListener implements ItemListener {
