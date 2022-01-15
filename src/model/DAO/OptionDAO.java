@@ -30,6 +30,7 @@ public class OptionDAO {
 				
 				option_.setOption(rs.getString("option"));
 				option_.setType(rs.getString("type"));
+				option_.setStatusOption(rs.getString("statusOption"));
 				options_.add(option_);
 				
 			}

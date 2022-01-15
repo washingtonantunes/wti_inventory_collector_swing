@@ -39,7 +39,7 @@ public class SearchData {
 			Process process = Runtime.getRuntime().exec(GET_SERIAL_NUMBER);
 			Scanner sc = new Scanner(process.getInputStream());
 			while (sc.hasNextLine()) {
-				list.add(sc.nextLine());
+				list.add(sc.nextLine().trim());
 			}
 			equipment.setSerialNumber(list.get(2));
 		} catch (Throwable e) {
@@ -51,7 +51,7 @@ public class SearchData {
 		try {
 			Process process = Runtime.getRuntime().exec(GET_HOST_NAME);
 			Scanner sc = new Scanner(process.getInputStream());
-			equipment.setHostName(sc.nextLine());
+			equipment.setHostName(sc.nextLine().trim());
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -63,7 +63,7 @@ public class SearchData {
 			Process process = Runtime.getRuntime().exec(GET_ADDRESS_MAC);
 			Scanner sc = new Scanner(process.getInputStream());
 			while (sc.hasNextLine()) {
-				list.add(sc.nextLine());
+				list.add(sc.nextLine().trim());
 			}
 			for (String s : list) {
 				if (s.contains("Device")) {
@@ -81,7 +81,7 @@ public class SearchData {
 			Process process = Runtime.getRuntime().exec(GET_BRAND);
 			Scanner sc = new Scanner(process.getInputStream());
 			while (sc.hasNextLine()) {
-				list.add(sc.nextLine());
+				list.add(sc.nextLine().trim());
 			}
 			equipment.setBrandEquipment(list.get(2));
 		} catch (Throwable e) {
@@ -95,7 +95,7 @@ public class SearchData {
 			Process process = Runtime.getRuntime().exec(GET_MODEL);
 			Scanner sc = new Scanner(process.getInputStream());
 			while (sc.hasNextLine()) {
-				list.add(sc.nextLine());
+				list.add(sc.nextLine().trim());
 			}
 			equipment.setModelEquipment(list.get(2));
 		} catch (Throwable e) {

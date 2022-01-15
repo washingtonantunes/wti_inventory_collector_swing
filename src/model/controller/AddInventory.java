@@ -128,6 +128,7 @@ public class AddInventory extends JDialog {
 	private Equipment equipment;
 
 	public AddInventory() {
+		this.equipment = Window.getEquipment();
 		initComponents();
 	}
 
@@ -503,10 +504,11 @@ public class AddInventory extends JDialog {
 			} else if (label_show_TypeEquipment.getText().equals("DESKTOP")
 					&& comboBox_SerialNumberMonitor1.getSelectedIndex() < 0) {
 				JOptionPane.showMessageDialog(null, "É necessário selecionar um monitor!");
-			} else if (comboBox_SerialNumberMonitor1.getSelectedItem() == comboBox_SerialNumberMonitor2
-					.getSelectedItem() && (comboBox_SerialNumberMonitor1.getSelectedIndex() > -1)
-					&& (comboBox_SerialNumberMonitor2.getSelectedIndex() > -1)) {
-				JOptionPane.showMessageDialog(null, "Os dois monitores selecionados são iguais!");
+			} else if (comboBox_SerialNumberMonitor1.getSelectedIndex() > -1 && comboBox_SerialNumberMonitor2.getSelectedIndex() > -1) {
+				if (comboBox_SerialNumberMonitor1.getSelectedItem() == comboBox_SerialNumberMonitor2
+						.getSelectedItem()) {
+					JOptionPane.showMessageDialog(null, "Os dois monitores selecionados são iguais!");
+				} 
 			} else {
 				InventoryTest inventory_ = new InventoryTest();
 

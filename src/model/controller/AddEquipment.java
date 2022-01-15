@@ -190,14 +190,14 @@ public class AddEquipment extends JDialog {
 			} else {
 				Equipment equipment_ = new Equipment();
 
-				equipment_.setSerialNumber(label_show_SerialNumber.getText());
-				equipment_.setHostName(label_show_HostName.getText());
-				equipment_.setAddressMAC(label_show_AddressMAC.getText());
-				equipment_.setTypeEquipment(comboBox_TypeEquipment.getSelectedItem().toString());
+				equipment_.setSerialNumber(label_show_SerialNumber.getText().toUpperCase().trim());
+				equipment_.setHostName(label_show_HostName.getText().toUpperCase().trim());
+				equipment_.setAddressMAC(label_show_AddressMAC.getText().toUpperCase().trim());
+				equipment_.setTypeEquipment(comboBox_TypeEquipment.getSelectedItem().toString().toUpperCase().trim());
 				equipment_
 						.setPatrimonyNumberEquipment(textField_PatrimonyNumberEquipment.getText().toUpperCase().trim());
-				equipment_.setBrandEquipment(label_show_BrandEquipment.getText());
-				equipment_.setModelEquipment(label_show_ModelEquipment.getText());
+				equipment_.setBrandEquipment(label_show_BrandEquipment.getText().toUpperCase().trim());
+				equipment_.setModelEquipment(label_show_ModelEquipment.getText().toUpperCase().trim());
 				equipment_.setMemoryRam(comboBox_MemoryRam.getSelectedItem().toString());
 				equipment_.setHardDisk(comboBox_HardDisk.getSelectedItem().toString());
 

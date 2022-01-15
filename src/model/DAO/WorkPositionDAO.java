@@ -70,7 +70,6 @@ public class WorkPositionDAO {
 				workPosition_.setStatusWorkPoint(rs.getString("statusWorkPosition"));
 				workPosition_.setDateEntry(rs.getDate("dateEntry"));
 				workPosition_.setReason(rs.getString("reason"));
-				workPosition_.setIdChange(rs.getInt("idChange"));
 				workPositions_.add(workPosition_);
 			}
 			ConnectionFactory.fechaConexao(conn, pstm, rs);

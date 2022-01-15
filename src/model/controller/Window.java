@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import model.DAO.EquipmentDAO;
 import model.DAO.MonitorDAO;
@@ -86,7 +87,7 @@ public class Window extends JFrame {
 
 		buttonAddInventory = new JButton("Adicionar Inventário");
 		buttonAddInventory.setBounds(70, 430, 250, 45);
-		buttonAddInventory.addActionListener(new buttonAddEquipmenListener());
+		buttonAddInventory.addActionListener(new buttonAddInventoryListener());
 		add(buttonAddInventory);
 	}
 	
@@ -187,7 +188,7 @@ public class Window extends JFrame {
 		}
 	}
 
-	private class buttonAddEquipmenListener implements ActionListener {
+	private class buttonAddInventoryListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			initProject();
 			initMonitor();
@@ -195,8 +196,12 @@ public class Window extends JFrame {
 			initWorkPosition();
 			initUser();
 			
-			AddInventory addInventory = new AddInventory();
-			addInventory.setVisible(true);
+			if (equipment.getSerialNumber() == null) {
+				JOptionPane.showMessageDialog(null, "Equipamento não adicionado");
+			} else {
+				AddInventory addInventory = new AddInventory();
+				addInventory.setVisible(true);
+			}
 		}
 	}
 }
