@@ -594,6 +594,7 @@ public class AddInventory extends JDialog {
 							"Deseja gerar o termo de entrega?") == JOptionPane.YES_OPTION) {
 						new CreatePDFFileDelivery(inventory_);
 					}
+					dispose();
 				} else {
 					dispose();
 				}
