@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import model.DAO.EquipmentDAO;
 import model.entities.Equipment;
 import model.entities.Option;
+import model.util.Utilitary;
 
 public class AddEquipment extends JDialog {
 
@@ -185,6 +186,10 @@ public class AddEquipment extends JDialog {
 					|| textField_PatrimonyNumberEquipment.getText().trim().isEmpty()) {
 				JOptionPane.showMessageDialog(null,
 						"Campos: 'Número de Patrimônio', 'Memória Ram', 'Hard Disk' e 'Tipo de Equipamento'  são obrigatórios!");
+			} else if (Utilitary.ToCheckHostName(label_show_HostName.getText().toUpperCase().trim()) == false
+					|| label_show_HostName.getText().length() < 7) {
+				JOptionPane.showMessageDialog(null,
+						"É necessário informar o nome do equipamento no formato: 'SPODSK' ou 'SPONTB'!");
 			} else if (textField_PatrimonyNumberEquipment.getText().length() < 4) {
 				JOptionPane.showMessageDialog(null, "É necessário informar um número de patrimônio válido.");
 			} else {
