@@ -102,10 +102,10 @@ public class AddWorkPosition extends JDialog {
 	private void addTextFields() {
 		textField_WorkPoint = new JTextField();
 		comboBox_Location = new JComboBox<>(new Vector<>(Window.getOption().stream()
-				.filter(o -> o.getType().equals("LOCALIZAÇÃO") && o.getStatusOption().equals("ATIVO"))
+				.filter(o -> o.getType().equals("LOCALIZAÇÃO") && o.getStatusOption().equals("ACTIVE"))
 				.map(Option::getOption).collect(Collectors.toList())));
 		comboBox_Floors = new JComboBox<>(new Vector<>(Window.getOption().stream()
-				.filter(o -> o.getType().equals("ANDAR") && o.getStatusOption().equals("ATIVO"))
+				.filter(o -> o.getType().equals("ANDAR") && o.getStatusOption().equals("ACTIVE"))
 				.map(Option::getOption).collect(Collectors.toList())));
 		textField_NetPoint = new JTextField();
 

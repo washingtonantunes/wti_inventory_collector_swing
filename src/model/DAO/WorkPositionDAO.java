@@ -31,7 +31,7 @@ public class WorkPositionDAO {
 			pstm.setString(2, workPosition_.getLocation());
 			pstm.setString(3, workPosition_.getFloors());
 			pstm.setString(4, workPosition_.getNetPoint());
-			pstm.setString(5, "ATIVO");
+			pstm.setString(5, "FREE");
 			pstm.setDate(6, DATE);
 			pstm.setString(7, "Nova Posição de Trabalho Adicionada");
 			pstm.setString(8, "Entrada de Posição de Trabalho");

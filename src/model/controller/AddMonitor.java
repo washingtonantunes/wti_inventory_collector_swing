@@ -95,7 +95,7 @@ public class AddMonitor extends JDialog {
 	private void addTextFields() {
 		textField_SerialNumberMonitor = new JTextField();
 		comboBox_ModelMonitor = new JComboBox<>(new Vector<>(Window.getOption().stream()
-				.filter(o -> o.getType().equals("MONITOR") && o.getStatusOption().equals("ATIVO"))
+				.filter(o -> o.getType().equals("MONITOR") && o.getStatusOption().equals(""))
 				.map(Option::getOption).collect(Collectors.toList())));
 		textField_PatrimonyNumber = new JTextField();
 				

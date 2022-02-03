@@ -136,16 +136,16 @@ public class AddEquipment extends JDialog {
 		label_show_HostName = new JLabel(equipment.getHostName());
 		label_show_AddressMAC = new JLabel(equipment.getAddressMAC());
 		comboBox_TypeEquipment = new JComboBox<>(new Vector<>(Window.getOption().stream()
-				.filter(o -> o.getType().equals("TIPO DE EQUIPAMENTO") && o.getStatusOption().equals("ATIVO"))
+				.filter(o -> o.getType().equals("TIPO DE EQUIPAMENTO") && o.getStatusOption().equals("ACTIVE"))
 				.map(Option::getOption).collect(Collectors.toList())));
 		textField_PatrimonyNumberEquipment = new JTextField();
 		label_show_BrandEquipment = new JLabel(equipment.getBrandEquipment());
 		label_show_ModelEquipment = new JLabel(equipment.getModelEquipment());
 		comboBox_MemoryRam = new JComboBox<>(new Vector<>(Window.getOption().stream()
-				.filter(o -> o.getType().equals("MEMÓRIA RAM") && o.getStatusOption().equals("ATIVO"))
+				.filter(o -> o.getType().equals("MEMÓRIA RAM") && o.getStatusOption().equals("ACTIVE"))
 				.map(Option::getOption).collect(Collectors.toList())));
 		comboBox_HardDisk = new JComboBox<>(new Vector<>(Window.getOption().stream()
-				.filter(o -> o.getType().equals("DISCO RIGIDO") && o.getStatusOption().equals("ATIVO"))
+				.filter(o -> o.getType().equals("DISCO RIGIDO") && o.getStatusOption().equals("ACTIVE"))
 				.map(Option::getOption).collect(Collectors.toList())));
 
 		label_show_SerialNumber.setBounds(170, 10, WIDTH, HEIGHT);

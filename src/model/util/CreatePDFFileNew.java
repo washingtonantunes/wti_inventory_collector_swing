@@ -1,7 +1,6 @@
 package model.util;
 
 import java.awt.Desktop;
-//import java.awt.Font;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,7 +22,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import model.controller.Window;
 import model.entities.Inventory;
 
-public class CreatePDFFileDelivery {
+public class CreatePDFFileNew {
 
 	private static final DateFormat dfmt = new SimpleDateFormat("d 'de' MMMM 'de' yyyy");
 	private static final Date hoje = Calendar.getInstance(Locale.getDefault()).getTime();
@@ -32,14 +31,14 @@ public class CreatePDFFileDelivery {
 
 	private Inventory inventory;
 
-	public CreatePDFFileDelivery(Inventory inventory_) {
+	public CreatePDFFileNew(Inventory inventory_) {
 		this.inventory = inventory_;
 		createPDF();
 	}
 
 	private void createPDF() {
 
-		Document document = new Document(PageSize.A4, 36f, 52f, 40f, 80f);
+		Document document = new Document(PageSize.A4, 36f, 52f, 40f, 20f);
 
 		Paragraph linha = new Paragraph(" ");
 
@@ -49,21 +48,22 @@ public class CreatePDFFileDelivery {
 			PdfWriter.getInstance(document,
 					new FileOutputStream(filePath.contains("pdf") ? filePath : filePath + ".pdf"));
 			document.open();
-			document.add(getHeader()); // cabeçalho
+			document.add(getHeader());
 			document.add(linha);
 			document.add(linha);
 			document.add(getDate());
 			document.add(linha);
 			document.add(getUser());
 			document.add(getEquipment());
-			if (inventory.getMonitor1().getSerialNumberMonitor() != null) {
+			if (inventory.getMonitor1() != null) {
 				document.add(getMonitor1());
 			}
 
-			if (inventory.getMonitor2().getSerialNumberMonitor() != null) {
+			if (inventory.getMonitor2() != null) {
 				document.add(getMonitor2());
 			}
-
+			document.add(linha);
+			document.add(getPeripherals());
 			document.add(linha);
 			document.add(linha);
 			document.add(getThird());
@@ -88,7 +88,7 @@ public class CreatePDFFileDelivery {
 	}
 
 	private void getPath() {
-		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView());
 
 		int returnValue = jfc.showSaveDialog(null);
 
@@ -112,9 +112,9 @@ public class CreatePDFFileDelivery {
 	}
 
 	private Paragraph getUser() {
-		Paragraph first = new Paragraph("Eu, " + inventory.getUser().getNameUser() + ", portador do CPF: "
+		Paragraph first = new Paragraph("Eu, " + inventory.getUser().getNameUser() + ", portador(a) do CPF: "
 				+ inventory.getUser().getCPF() + ", matrícula: " + inventory.getUser().getRegistration()
-				+ ", alocada no projeto: " + inventory.getProject().getNameProject()
+				+ ", alocado(a) no projeto: " + inventory.getProject().getNameProject()
 				+ ", recebi nesta data, da empresa INDRA, os equipamentos listados abaixo: \n");
 		first.setAlignment(0);
 		return first;
@@ -144,6 +144,12 @@ public class CreatePDFFileDelivery {
 				+ ", número de série: " + inventory.getMonitor2().getSerialNumberMonitor());
 		monitor2.setAlignment(0);
 		return monitor2;
+	}
+	
+	private Paragraph getPeripherals() {
+		Paragraph peripherals = new Paragraph("( )Mouse ( )Teclado ( )Cabos");
+		peripherals.setAlignment(0);
+		return peripherals;
 	}
 
 	private Paragraph getThird() {

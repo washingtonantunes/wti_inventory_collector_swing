@@ -20,12 +20,12 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import model.DAO.InventoryDAO;
 import model.entities.Equipment;
-import model.entities.InventoryTest;
+import model.entities.InventoryUtil;
 import model.entities.Monitor;
 import model.entities.Project;
 import model.entities.User;
 import model.entities.WorkPosition;
-import model.util.CreatePDFFileDelivery;
+import model.util.CreatePDFFileNew;
 import services.InventoryService;
 
 public class AddInventory extends JDialog {
@@ -110,15 +110,15 @@ public class AddInventory extends JDialog {
 	private JLabel label_show_ValueEquipment;
 	private JLabel label_show_StatusEquipment;
 
-	private JComboBox<Monitor> comboBox_SerialNumberMonitor1;
+	private JComboBox<Monitor> comboBox_Monitor1;
 	private JLabel label_show_modelMonitor1;
 	private JLabel label_show_patrimonyNumberMonitor1;
 
-	private JComboBox<Monitor> comboBox_SerialNumberMonitor2;
+	private JComboBox<Monitor> comboBox_Monitor2;
 	private JLabel label_show_modelMonitor2;
 	private JLabel label_show_patrimonyNumberMonitor2;
 
-	private JComboBox<User> comboBox_Registration;
+	private JComboBox<User> comboBox_User;
 	private JLabel label_show_NameUser;
 	private JLabel label_show_CPF;
 	private JLabel label_show_Phone;
@@ -191,7 +191,7 @@ public class AddInventory extends JDialog {
 		panelMainAddInventory.add(label_NetPoint);
 
 		comboBox_WorkPosition = new JComboBox<>(new Vector<>(
-				Window.getWorkPosition().stream().filter(m -> m.getStatusWorkPoint().equals("ATIVO")).collect(Collectors.toList())));
+				Window.getWorkPosition().stream().filter(m -> m.getStatusWorkPoint().equals("ACTIVE")).collect(Collectors.toList())));
 		label_show_Location = new JLabel();
 		label_show_Floors = new JLabel();
 		label_show_NetPoint = new JLabel();
@@ -230,7 +230,7 @@ public class AddInventory extends JDialog {
 		panelMainAddInventory.add(label_Locality);
 
 		comboBox_Project = new JComboBox<>(new Vector<>(Window.getProject().stream()
-				.filter(p -> p.getStatusProject().equals("ATIVO")).collect(Collectors.toList())));
+				.filter(p -> p.getStatusProject().equals("ACTIVE")).collect(Collectors.toList())));
 		label_show_CostCenter = new JLabel();
 		label_show_Locality = new JLabel();
 
@@ -279,19 +279,19 @@ public class AddInventory extends JDialog {
 		label_Department.setForeground(COLOR_1);
 		panelMainAddInventory.add(label_Department);
 
-		comboBox_Registration = new JComboBox<>(new Vector<>(
-				Window.getUser().stream().filter(u -> u.getStatusUser().equals("ATIVO")).collect(Collectors.toList())));
+		comboBox_User = new JComboBox<>(new Vector<>(
+				Window.getUser().stream().filter(u -> u.getStatusUser().equals("ACTIVE")).collect(Collectors.toList())));
 		label_show_NameUser = new JLabel();
 		label_show_CPF = new JLabel();
 		label_show_Phone = new JLabel();
 		label_show_Email = new JLabel();
 		label_show_Department = new JLabel();
 
-		AutoCompleteDecorator.decorate(comboBox_Registration);
-		comboBox_Registration.setSelectedIndex(-1);
-		comboBox_Registration.setBounds(170, 290, WIDTH, HEIGHT);
-		comboBox_Registration.addItemListener(new ItemChangeUserListener());
-		panelMainAddInventory.add(comboBox_Registration);
+		AutoCompleteDecorator.decorate(comboBox_User);
+		comboBox_User.setSelectedIndex(-1);
+		comboBox_User.setBounds(170, 290, WIDTH, HEIGHT);
+		comboBox_User.addItemListener(new ItemChangeUserListener());
+		panelMainAddInventory.add(comboBox_User);
 
 		label_show_NameUser.setBounds(LINE_2, 330, WIDTH, HEIGHT);
 		panelMainAddInventory.add(label_show_NameUser);
@@ -439,16 +439,16 @@ public class AddInventory extends JDialog {
 		label_PatrimonyNumberMonitor1.setForeground(COLOR_1);
 		panelMainAddInventory.add(label_PatrimonyNumberMonitor1);
 
-		comboBox_SerialNumberMonitor1 = new JComboBox<>(new Vector<>(Window.getMonitor().stream()
+		comboBox_Monitor1 = new JComboBox<>(new Vector<>(Window.getMonitor().stream()
 				.filter(m -> m.getStatusMonitor().equals("STAND BY")).collect(Collectors.toList())));
 		label_show_modelMonitor1 = new JLabel();
 		label_show_patrimonyNumberMonitor1 = new JLabel();
 
-		AutoCompleteDecorator.decorate(comboBox_SerialNumberMonitor1);
-		comboBox_SerialNumberMonitor1.setSelectedIndex(-1);
-		comboBox_SerialNumberMonitor1.setBounds(LINE_6, 130, WIDTH, HEIGHT);
-		comboBox_SerialNumberMonitor1.addItemListener(new ItemChangeMonitor1Listener());
-		panelMainAddInventory.add(comboBox_SerialNumberMonitor1);
+		AutoCompleteDecorator.decorate(comboBox_Monitor1);
+		comboBox_Monitor1.setSelectedIndex(-1);
+		comboBox_Monitor1.setBounds(LINE_6, 130, WIDTH, HEIGHT);
+		comboBox_Monitor1.addItemListener(new ItemChangeMonitor1Listener());
+		panelMainAddInventory.add(comboBox_Monitor1);
 
 		label_show_modelMonitor1.setBounds(LINE_6, 170, WIDTH, HEIGHT);
 		panelMainAddInventory.add(label_show_modelMonitor1);
@@ -474,16 +474,16 @@ public class AddInventory extends JDialog {
 		label_PatrimonyNumberMonitor2.setForeground(COLOR_1);
 		panelMainAddInventory.add(label_PatrimonyNumberMonitor2);
 
-		comboBox_SerialNumberMonitor2 = new JComboBox<>(new Vector<>(Window.getMonitor().stream()
+		comboBox_Monitor2 = new JComboBox<>(new Vector<>(Window.getMonitor().stream()
 				.filter(m -> m.getStatusMonitor().equals("STAND BY")).collect(Collectors.toList())));
 		label_show_modelMonitor2 = new JLabel();
 		label_show_patrimonyNumberMonitor2 = new JLabel();
 
-		AutoCompleteDecorator.decorate(comboBox_SerialNumberMonitor2);
-		comboBox_SerialNumberMonitor2.setSelectedIndex(-1);
-		comboBox_SerialNumberMonitor2.setBounds(LINE_6, 250, WIDTH, HEIGHT);
-		comboBox_SerialNumberMonitor2.addItemListener(new ItemChangeMonitor2Listener());
-		panelMainAddInventory.add(comboBox_SerialNumberMonitor2);
+		AutoCompleteDecorator.decorate(comboBox_Monitor2);
+		comboBox_Monitor2.setSelectedIndex(-1);
+		comboBox_Monitor2.setBounds(LINE_6, 250, WIDTH, HEIGHT);
+		comboBox_Monitor2.addItemListener(new ItemChangeMonitor2Listener());
+		panelMainAddInventory.add(comboBox_Monitor2);
 
 		label_show_modelMonitor2.setBounds(LINE_6, 290, WIDTH, HEIGHT);
 		panelMainAddInventory.add(label_show_modelMonitor2);
@@ -493,109 +493,72 @@ public class AddInventory extends JDialog {
 	}
 
 	private class buttonSaveListener implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (comboBox_Project.getSelectedItem() == null) {
 				JOptionPane.showMessageDialog(null, "É necessário selecionar um Projeto!");
-			} else if (comboBox_WorkPosition.getSelectedIndex() < 0 && comboBox_Registration.getSelectedIndex() < 0) {
+			} else if (comboBox_WorkPosition.getSelectedIndex() < 0 && comboBox_User.getSelectedIndex() < 0) {
 				JOptionPane.showMessageDialog(null, "É necessário selecionar um usuário ou uma posição de trabalho!");
 			} else if (comboBox_WorkPosition.getSelectedItem().toString().equals("HOME-OFFICE")
-					&& comboBox_Registration.getSelectedIndex() < 0) {
+					&& comboBox_User.getSelectedIndex() < 0) {
 				JOptionPane.showMessageDialog(null, "É necessário selecionar um usuário!");
 			} else if (label_show_TypeEquipment.getText().equals("DESKTOP")
-					&& comboBox_SerialNumberMonitor1.getSelectedIndex() < 0) {
+					&& comboBox_Monitor1.getSelectedIndex() < 0) {
 				JOptionPane.showMessageDialog(null, "É necessário selecionar um monitor!");
-			} else if (comboBox_SerialNumberMonitor1.getSelectedIndex() > -1 && comboBox_SerialNumberMonitor2.getSelectedIndex() > -1) {
-				if (comboBox_SerialNumberMonitor1.getSelectedItem() == comboBox_SerialNumberMonitor2
+			} else if (comboBox_Monitor1.getSelectedIndex() > -1 && comboBox_Monitor2.getSelectedIndex() > -1) {
+				if (comboBox_Monitor1.getSelectedItem() == comboBox_Monitor2
 						.getSelectedItem()) {
 					JOptionPane.showMessageDialog(null, "Os dois monitores selecionados são iguais!");
 				} 
 			} else {
-				InventoryTest inventory_ = new InventoryTest();
+				InventoryUtil inventoryUtil = new InventoryUtil();
+				
+				// WorkPosition
+				inventoryUtil.getInventoryNew().setWorkPosition((WorkPosition) comboBox_WorkPosition.getSelectedItem());
+				
+				// Project
+				inventoryUtil.getInventoryNew().setProject((Project) comboBox_Project.getSelectedItem());
+				
+				// User
+				inventoryUtil.getInventoryNew().setUser((User) comboBox_User.getSelectedItem());
 
-				// WorkPosition Test
-				if (comboBox_WorkPosition.getSelectedIndex() > -1) {
-					inventory_.getWorkPosition().setWorkPoint(comboBox_WorkPosition.getSelectedItem().toString());
-					if (!comboBox_WorkPosition.getSelectedItem().toString().equals("HOME-OFFICE")) {
-						inventory_.setWorkPositionBoolean(true);
-					}
-				} else {
-					inventory_.getWorkPosition().setWorkPoint("");
-				}
+//				// Equipment
+				inventoryUtil.getInventoryNew().getEquipment().setSerialNumber(label_show_SerialNumberEquipment.getText());
+				inventoryUtil.getInventoryNew().getEquipment().setHostName(label_show_HostName.getText());
+				inventoryUtil.getInventoryNew().getEquipment().setAddressMAC(label_show_AddressMAC.getText());
+				inventoryUtil.getInventoryNew().getEquipment().setTypeEquipment(label_show_TypeEquipment.getText());
+				inventoryUtil.getInventoryNew().getEquipment()
+						.setPatrimonyNumberEquipment(label_show_PatrimonyNumberEquipment.getText());
+				inventoryUtil.getInventoryNew().getEquipment().setBrandEquipment(label_show_BrandEquipment.getText());
+				inventoryUtil.getInventoryNew().getEquipment().setModelEquipment(label_show_ModelEquipment.getText());
+				inventoryUtil.getInventoryNew().getEquipment().setMemoryRam(label_show_MemoryRam.getText());
+				inventoryUtil.getInventoryNew().getEquipment().setHardDisk(label_show_HardDisk.getText());
+				inventoryUtil.getInventoryNew().getEquipment().setCostType(label_show_CostType.getText());
+				inventoryUtil.getInventoryNew().getEquipment()
+						.setValueEquipment(Double.parseDouble(label_show_ValueEquipment.getText()));
+				inventoryUtil.getInventoryNew().getEquipment().setStatusEquipment(label_show_StatusEquipment.getText());
 
-				// Project Test
-				if (comboBox_Project.getSelectedIndex() > -1) {
-					inventory_.getProject().setNameProject(comboBox_Project.getSelectedItem().toString());
-					inventory_.getProject().setLocality(label_show_Locality.getText());
-				} else {
-					inventory_.getProject().setNameProject("");
-				}
+				// Monitor1
+				inventoryUtil.getInventoryNew().setMonitor1((Monitor) comboBox_Monitor1.getSelectedItem());
 
-				// Equipment Test
-				if (label_show_SerialNumberEquipment.getText() != null) {
-					inventory_.getEquipment().setSerialNumber(label_show_SerialNumberEquipment.getText());
-					inventory_.getEquipment().setHostName(label_show_HostName.getText());
-					inventory_.getEquipment().setAddressMAC(label_show_AddressMAC.getText());
-					inventory_.getEquipment().setTypeEquipment(label_show_TypeEquipment.getText());
-					inventory_.getEquipment()
-							.setPatrimonyNumberEquipment(label_show_PatrimonyNumberEquipment.getText());
-					inventory_.getEquipment().setBrandEquipment(label_show_BrandEquipment.getText());
-					inventory_.getEquipment().setModelEquipment(label_show_ModelEquipment.getText());
-					inventory_.getEquipment().setMemoryRam(label_show_MemoryRam.getText());
-					inventory_.getEquipment().setHardDisk(label_show_HardDisk.getText());
-					inventory_.getEquipment().setCostType(label_show_CostType.getText());
-					inventory_.getEquipment()
-							.setValueEquipment(Double.parseDouble(label_show_ValueEquipment.getText()));
-					inventory_.getEquipment().setStatusEquipment(label_show_StatusEquipment.getText());
-					inventory_.setEquipmentBoolean(true);
-				} else {
-					inventory_.getProject().setNameProject("");
-				}
-
-				// User Test
-				if (comboBox_Registration.getSelectedIndex() > -1) {
-					inventory_.getUser().setRegistration(comboBox_Registration.getSelectedItem().toString());
-					inventory_.getUser().setNameUser(label_show_NameUser.getText());
-					inventory_.getUser().setCPF(label_show_CPF.getText());
-					inventory_.getUser().setPhone(label_show_Phone.getText());
-					inventory_.getUser().setEmail(label_show_Email.getText());
-					inventory_.getUser().setDepartment(label_show_Department.getText());
-					inventory_.setUserBoolean(true);
-				} else {
-					inventory_.getUser().setRegistration("");
-				}
-
-				// Monitor1 Test
-				if (comboBox_SerialNumberMonitor1.getSelectedIndex() > -1) {
-					inventory_.getMonitor1()
-							.setSerialNumberMonitor(comboBox_SerialNumberMonitor1.getSelectedItem().toString());
-					inventory_.getMonitor1().setModelMonitor(label_show_modelMonitor1.getText());
-					inventory_.getMonitor1().setPatrimonyNumberMonitor(label_show_patrimonyNumberMonitor1.getText());
-					inventory_.setMonitor1Boolean(true);
-				} else {
-					inventory_.getMonitor1().setSerialNumberMonitor("");
-				}
-
-				// Monitor2 Test
-				if (comboBox_SerialNumberMonitor2.getSelectedIndex() > -1) {
-					inventory_.getMonitor2()
-							.setSerialNumberMonitor(comboBox_SerialNumberMonitor2.getSelectedItem().toString());
-					inventory_.getMonitor2().setModelMonitor(label_show_modelMonitor2.getText());
-					inventory_.getMonitor2().setPatrimonyNumberMonitor(label_show_patrimonyNumberMonitor2.getText());
-					inventory_.setMonitor2Boolean(true);
-				} else {
-					inventory_.getMonitor2().setSerialNumberMonitor("");
-				}
+				// Monitor2
+				inventoryUtil.getInventoryNew().setMonitor2((Monitor) comboBox_Monitor2.getSelectedItem());
+				
+				inventoryUtil = InventoryService.getInventoryUtilNew(inventoryUtil);
 
 				InventoryDAO inventoryDAO_ = new InventoryDAO();
-
-				if (inventoryDAO_.addInventory(InventoryService.createChangeInventoryDelivery(inventory_))) {
-
-					if (JOptionPane.showConfirmDialog(null,
-							"Deseja gerar o termo de entrega?") == JOptionPane.YES_OPTION) {
-						new CreatePDFFileDelivery(inventory_);
+				boolean test = inventoryDAO_.addInventory(inventoryUtil);
+				
+				if (test) {
+					if (inventoryUtil.isUserNewBoolean()) {
+						if (JOptionPane.showConfirmDialog(null,
+								"Deseja gerar o termo de entrega?") == JOptionPane.YES_OPTION) {
+							new CreatePDFFileNew(inventoryUtil.getInventoryNew());
+						}
 					}
 					dispose();
-				} else {
+				} 
+				else {
 					dispose();
 				}
 			}
@@ -613,15 +576,15 @@ public class AddInventory extends JDialog {
 			label_show_CostCenter.setText("");
 			label_show_Locality.setText("");
 
-			comboBox_SerialNumberMonitor1.setSelectedIndex(-1);
+			comboBox_Monitor1.setSelectedIndex(-1);
 			label_show_modelMonitor1.setText("");
 			label_show_patrimonyNumberMonitor1.setText("");
 
-			comboBox_SerialNumberMonitor2.setSelectedIndex(-1);
+			comboBox_Monitor2.setSelectedIndex(-1);
 			label_show_modelMonitor2.setText("");
 			label_show_patrimonyNumberMonitor2.setText("");
 
-			comboBox_Registration.setSelectedIndex(-1);
+			comboBox_User.setSelectedIndex(-1);
 			label_show_NameUser.setText("");
 			label_show_CPF.setText("");
 			label_show_Phone.setText("");
